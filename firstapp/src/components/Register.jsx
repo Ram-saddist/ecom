@@ -1,17 +1,31 @@
 import React, { useState } from 'react'
-
+import {useNavigate} from 'react-router-dom' 
+import axios from 'axios'
 export default function Register() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [address, setAddress] = useState("")
-  const [mobile, setMobile] = useState()
+  const [mobile, setMobile] = useState("")
+
+  const navigate=useNavigate()
 
   function handleRegister(e){
     e.preventDefault()
     //console.log(e)
-    let newUser={name,email,mobile,password,address}
+    let newUser={name,email,mobile:Number(mobile),password,address}
     console.log(newUser)
+    console.log(import.meta.env)
+console.log(import.meta.env.VITE_API_BACKEND)
+
+    axios.post("http://localhost:4000/api/create-user",newUser)
+      .then((res)=>{
+        console.log(res.data)
+        if(res.data.status===201){
+          navigate("/login")
+        }
+      })
+
     setName("")
     setEmail("")
     setPassword("")

@@ -4,22 +4,25 @@ const route = express.Router()
 const bcrypt = require("bcrypt")
 
 route.post("/create-user", async (req, res) => {
-    try {
+    console.log("create api")
+   try {
         const { name, email, password, mobile, address } = req.body
-        console.log(email)
-        let user = User.findOne({ email })
+        console.log(email,name)
+        let user =await User.findOne({ email })
+        console.log(user)
         if (user) {
             return res.status(400).json({ "message": "user already exists" })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
         user = new User({
-            name, email, password, mobile, address
+            name, email, password:hashedPassword, mobile, address
         })
-        await User.save()
+        await user.save()
         return res.status(201).json({ "message": "user created successfully" })
     }
     catch (err) {
+        console.log(err)
         return res.status(500).json({ "message": "internal server error while creating user" })
     }
 })
