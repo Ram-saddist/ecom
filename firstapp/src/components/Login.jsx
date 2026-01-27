@@ -1,12 +1,29 @@
 import React, { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  function handleLogin(e) {
+  const navigate=useNavigate()
+  async function handleLogin(e) {
     e.preventDefault()
     let newUser = { email, password }
-    console.log(newUser)
+    console.log("login function ",newUser)
+    try{
+      const response= await axios.post("http://localhost:4000/api/login",newUser)
+      console.log(response)
+      if(response.status==200){
+        localStorage.setItem("userId",response.data.userId)
+        localStorage.setItem("role",response.data.role)
+        navigate("/")
+      }
+    }
+    catch(err){
+      console.log("error from login",err)
+      if(err.status==400){
+        alert(err.response.data.message)
+      }
+    }
   }
   return (
     <div className='container mt-4'>
