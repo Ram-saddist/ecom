@@ -27,7 +27,7 @@ export default function Home() {
       <h2>Products</h2>
       {
         loading ? (<p>Loading...</p>) : (
-          <div className='row row-cols-1 row-cols-md-3 g-4'>
+          <div className='row row-cols-1 row-cols-md-3 g-4 mt-3'>
             {
               products.map((i) => (
                 <div className="col" key={i._id}>
@@ -38,7 +38,13 @@ export default function Home() {
                         <p className="card-text"><b>Category: </b>{i.category}</p>
                         <p className="card-text"><b>Description: </b>{i.description}</p>
                         <p className="card-text"><b>Stock: </b>{i.stock}</p>
-                        <button onClick={()=>addToCart(i._id)} className='btn btn-warning'>Add to Cart</button>
+                        {
+                          role=="admin"?(
+                            <button onClick={()=>deleteProduct(i._id)} className='btn btn-danger'>Delete</button>
+                          ):(
+                            <button onClick={()=>addToCart(i._id)} className='btn btn-warning text-white'>Add to Cart</button>
+                          )
+                        }
                       </div>
                   </div>
                 </div>
