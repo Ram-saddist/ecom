@@ -8,7 +8,7 @@ export default function Cart() {
         fetchCartItems()
     },[])
     async function fetchCartItems(){
-        await axios.get("http://localhost:4000/api/cart",
+        await axios.get("https://ecom-al7s.onrender.com/api/cart",
             {params:{userId}}
         )
         .then((res)=>{
